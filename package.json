@@ -1,0 +1,25 @@
+{
+  "name": "crudapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "",
+    "start:prod": "",
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RebuyBoy/CRUDAPI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RebuyBoy/CRUDAPI/issues"
+  },
+  "homepage": "https://github.com/RebuyBoy/CRUDAPI#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.16",
+    "typescript": "^4.7.3"
+  }
+}
