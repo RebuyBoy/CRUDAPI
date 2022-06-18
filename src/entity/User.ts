@@ -3,19 +3,21 @@
 // username — user's name (string, required)
 // age — user's age (number, required)
 // hobbies — user's hobbies (array of strings or empty array, required)
+import { randomUUID } from 'crypto'
 
-class User {
+export default class User {
     id: string;
     username: string;
     age: number;
     hobbies: string[];
 
     constructor(username: string, age: number, hobbies: string[]) {
+        this.id = randomUUID();
         this.username = username;
         this.age = age;
         this.hobbies = hobbies;
     }
-    //TODO overload constructors
-    //TODO private fields
+    //TODO overload constructors ?
+    //TODO private fields ?
 
 }
