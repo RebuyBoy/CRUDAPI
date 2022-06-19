@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon -w src src/crudApp.ts",
-    "start:prod": "tsc && node build/src/crudApp.js"
+    "start:dev": "nodemon -w src src/cluster.ts",
+    "start:prod": "tsc && node build/src/cluster.js"
   },
   "repository": {
     "type": "git",

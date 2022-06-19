@@ -1,17 +1,9 @@
-//TODO +10 GET api/user implemented properly
-// +10 GET api/user/${userId} implemented properly
-// +10 POST api/user implemented properly
-// +10 PUT api/user/{userId} implemented properly
-// +10 DELETE api/user/${userId} implemented properly
-
 import {IncomingMessage, ServerResponse} from "http";
 import {validate} from "uuid";
 import userController from "./controllers/UserControllerImpl";
 import {sendJsonResponse} from "./utils/utils";
 
 const userRequestRegex = /^\/api\/users\/?(?<uuid>[a-f\d-]{36})?$/
-//TODO подумать как спарсить отдельно
-// Server should answer with status code 400 and corresponding message if userId is invalid (not uuid)
 
 export function handleRequest(req: IncomingMessage, res: ServerResponse) {
     const url = req.url;

@@ -1,13 +1,14 @@
 import cluster from "cluster";
 import os from "os";
 import {pid} from "process";
-import {startServer} from "./crudApp";
+import {startServer} from "./application";
+import "dotenv/config";
+import {resolve} from "path";
 
 
 if (cluster.isPrimary) {
     const count = os.cpus().length;
     console.log(`Master pid: ${pid}`);
-    console.log(`Starting ${count - 1} forks`);
     for (let i = 0; i < count - 1; i++) {
         const worker = cluster.fork();
         // worker.on("exit", (err) => {
@@ -17,14 +18,17 @@ if (cluster.isPrimary) {
     }
 } else {
     const id = cluster.worker.id;
-    console.log(`Worker: ${id}, pid: ${pid}`);
     startServer();
 }
 // process.on("message",(message)=>{
 //     console.log(message);
 // })
 
-
+function getPort(): string {
+    const path = resolve(process.cwd(), ".env");
+    console.log(path);
+    return process.env.PORT || "3000"
+}
 
 // Кстати, вопрос на засыпку: а вы же понимаете, что для того, чтобы реализовать горизонтальное скалирование,
 // мало просто поднять несколько инстансов при помощи кластера, т.к. при этом у каждого инстанса будет своя in-memory DB?

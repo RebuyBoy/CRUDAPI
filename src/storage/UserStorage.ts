@@ -12,5 +12,3 @@ export default interface UserStorage {
 
     update(user: User);
 }
-
-//TODO do not compile to build???

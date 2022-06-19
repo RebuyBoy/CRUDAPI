@@ -64,8 +64,5 @@ class UserStorageImpl implements UserStorage {
     }
 }
 
-//TODO delete hardcode
-const user = new User("testU", 11, ["testhob"], "597cf845-c591-41ef-b5cb-aa932f5ab536");
 const userStorage: UserStorage = new UserStorageImpl();
-userStorage.save(user);
 export default userStorage;

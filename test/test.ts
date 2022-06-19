@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import {server} from "../src/crudApp";
+import {server} from "../src/application";
 
 const testUser = {
     "username": "Test man",
