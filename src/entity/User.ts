@@ -1,9 +1,4 @@
-// Users are stored as objects that have following properties:
-//     id — unique identifier (string, uuid) generated on server side
-// username — user's name (string, required)
-// age — user's age (number, required)
-// hobbies — user's hobbies (array of strings or empty array, required)
-import { randomUUID } from 'crypto'
+import {v4} from "uuid"
 
 export default class User {
     id: string;
@@ -11,13 +6,10 @@ export default class User {
     age: number;
     hobbies: string[];
 
-    constructor(username: string, age: number, hobbies: string[]) {
-        this.id = randomUUID();
+    constructor(username: string, age: number, hobbies: string[], id?: string) {
+        this.id = id ? id : v4();
         this.username = username;
         this.age = age;
         this.hobbies = hobbies;
     }
-    //TODO overload constructors ?
-    //TODO private fields ?
-
 }

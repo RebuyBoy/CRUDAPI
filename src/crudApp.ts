@@ -1,11 +1,37 @@
 import {createServer} from "http"
-//TODO start server
+import {handleRequest} from "./usersRequestHandler";
+import {sendJsonResponse} from "./utils/utils";
+import {pid} from "process";
+import {resolve} from "path";
+import {config} from "dotenv";
 
-const server = createServer((req, res) => {
-    res.writeHead(200, {"Content-type": "text/plain"});
-    res.end("Hello world\n");
+
+//TODO +10 The repository with the application contains a Readme.md file containing detailed instructions
+// for installing, running and using the application
+// "start:prod": "tsc && node ./dist/crudApp.js"
+
+export const server = createServer((req, res) => {
+    try {
+        handleRequest(req, res);
+    } catch (err) {
+        console.error(err.message);
+        sendJsonResponse(res, {code: 500, message: "Something went wrong"})
+    }
 });
-const port = 3000
 
-server.listen(port, () => console.log(`server running on port: ${port}`));
+export const startServer = () => {
+    const port = getPort();
+    server.listen(port, () => {
+        console.log(`server running on port: ${port}`)
+        console.log(`process pid: ${pid}`)
+    });
+}
+
+function getPort(): string {
+    config();
+    return process.env.PORT || "3000"
+}
+
+startServer();
+
 

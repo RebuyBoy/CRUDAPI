@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "start:dev": "",
-    "start:prod": ""
+    "start:dev": "nodemon -w src src/crudApp.ts",
+    "start:prod": "tsc && node build/src/crudApp.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +20,15 @@
   "homepage": "https://github.com/RebuyBoy/CRUDAPI#readme",
   "devDependencies": {
     "@types/node": "^18.0.0",
+    "@types/uuid": "^8.3.4",
     "nodemon": "^2.0.16",
+    "supertest": "^6.2.3",
+    "ts-node": "^10.8.1",
     "typescript": "^4.7.3"
+  },
+  "dependencies": {
+    "@types/supertest": "^2.0.12",
+    "dotenv": "^16.0.1",
+    "uuid": "^8.3.2"
   }
 }

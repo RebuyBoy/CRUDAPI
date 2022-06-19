@@ -1,20 +1,30 @@
-import User from "../entity/User.js";
+import User from "../entity/User";
 import UserStorage from "./UserStorage";
+// import cluster from "cluster";
 
 class UserStorageImpl implements UserStorage {
     storage: User[] = [];
-    //TODO map??
 
     save(newUser: User) {
-        if (this._getById(newUser.id)) {
+        const user = this._getById(newUser.id);
+        if (user) {
             throw new Error(`User with id: ${newUser.id} already exists`);
         }
-        this.storage.push(newUser);
+        // if (cluster.isWorker) {
+        //     cluster.worker.send(["save", newUser])
+        // } else {
+            this.storage.push(newUser);
+        // }
         return newUser;
     }
 
     delete(id: string) {
+        let user = this._getById(id);
+        if (!user) {
+            throw new Error(`User with id: ${id} does not exists`);
+        }
         this.storage = this.storage.filter((user) => user.id !== id);
+        return id;
     }
 
     getAll() {
@@ -22,15 +32,28 @@ class UserStorageImpl implements UserStorage {
     }
 
     getById(id: string) {
-        return this._getById(id);
+        const user = this._getById(id);
+        if (!user) {
+            throw new Error(`User with id: ${id} does not exists`)
+        }
+        return user;
     }
 
     update(newUser: User) {
         let user = this._getById(newUser.id);
         if (user) {
-            user.username = newUser.username;
-            user.age = newUser.age;
-            user.hobbies = newUser.hobbies;
+            const newUsername = newUser.username;
+            const newAge = newUser.age;
+            const newHobbies = newUser.hobbies;
+            if (newUsername) {
+                user.username = newUsername;
+            }
+            if (newAge) {
+                user.age = newAge;
+            }
+            if (newHobbies) {
+                user.hobbies = newHobbies;
+            }
             return user;
         }
         throw new Error(`User with id: ${newUser.id} does not exists`)
@@ -41,5 +64,8 @@ class UserStorageImpl implements UserStorage {
     }
 }
 
-const userStorage:UserStorage = new UserStorageImpl();
+//TODO delete hardcode
+const user = new User("testU", 11, ["testhob"], "597cf845-c591-41ef-b5cb-aa932f5ab536");
+const userStorage: UserStorage = new UserStorageImpl();
+userStorage.save(user);
 export default userStorage;
