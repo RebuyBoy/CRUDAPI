@@ -1,6 +1,5 @@
 import User from "../entity/User";
 import UserStorage from "./UserStorage";
-// import cluster from "cluster";
 
 class UserStorageImpl implements UserStorage {
     storage: User[] = [];
@@ -10,11 +9,7 @@ class UserStorageImpl implements UserStorage {
         if (user) {
             throw new Error(`User with id: ${newUser.id} already exists`);
         }
-        // if (cluster.isWorker) {
-        //     cluster.worker.send(["save", newUser])
-        // } else {
-            this.storage.push(newUser);
-        // }
+        this.storage.push(newUser);
         return newUser;
     }
 

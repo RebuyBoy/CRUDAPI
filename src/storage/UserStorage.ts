@@ -11,4 +11,6 @@ export default interface UserStorage {
     getById(id: string);
 
     update(user: User);
+
 }
+

@@ -16,46 +16,58 @@ class UserControllerImpl implements UserController {
             const user = userStorage.getById(id)
             sendJsonResponse(res, {code: 200, message: user})
         } catch (err) {
+            console.error(err.message)
             sendJsonResponse(res, {code: 404, message: "User Not Found"});
         }
     }
 
     async save(req: IncomingMessage, res: ServerResponse) {
-        const data = await this.getRequestBodyData(req);
-        if (typeof data === "string") {
-            const jsonData = JSON.parse(data);
-            if (!this.validData(jsonData)) {
-                sendJsonResponse(res, {code: 400, message: "Request body does not contain required fields"});
-            } else {
-                const {username, age, hobbies} = jsonData;
-                const newUser = new User(username, age, hobbies);
-                userStorage.save(newUser);
-                sendJsonResponse(res, {code: 201, message: newUser});
+        try {
+            const data = await this.getRequestBodyData(req);
+            if (typeof data === "string") {
+                const jsonData = JSON.parse(data);
+                if (!this.validData(jsonData)) {
+                    sendJsonResponse(res, {code: 400, message: "Request body does not contain required fields"});
+                } else {
+                    const {username, age, hobbies} = jsonData;
+                    const newUser = new User(username, age, hobbies);
+                    userStorage.save(newUser);
+                    sendJsonResponse(res, {code: 201, message: newUser});
+                }
             }
+        } catch (err) {
+            console.error(err.message)
+            sendJsonResponse(res, {code: 500, message: "Something wrong"})
         }
     }
 
     async update(req, res, id) {
-        const data = await this.getRequestBodyData(req);
-        if (typeof data === "string") {
-            const jsonData = JSON.parse(data);
-            if (!this.validUpdateData(jsonData)) {
-                sendJsonResponse(res, {code: 400, message: "Request body does not contain fields to update"});
-            } else {
-                const {username, age, hobbies} = jsonData;
-                const userWithNewFields = new User(username, age, hobbies,id);
-                const updatedUser = userStorage.update(userWithNewFields);
-                sendJsonResponse(res, {code: 201, message: updatedUser});
+        try {
+            const data = await this.getRequestBodyData(req);
+            if (typeof data === "string") {
+                const jsonData = JSON.parse(data);
+                if (!this.validUpdateData(jsonData)) {
+                    sendJsonResponse(res, {code: 400, message: "Request body does not contain fields to update"});
+                } else {
+                    const {username, age, hobbies} = jsonData;
+                    const userWithNewFields = new User(username, age, hobbies, id);
+                    const updatedUser = userStorage.update(userWithNewFields);
+                    sendJsonResponse(res, {code: 201, message: updatedUser});
+                }
             }
+        } catch (err) {
+            console.error(err.message);
+            sendJsonResponse(res, {code: 404, message: "User Not Found"});
         }
     }
 
     remove(req: IncomingMessage, res: ServerResponse, id: string) {
         try {
             userStorage.delete(id);
-            sendJsonResponse(res, {code: 204, message: ""})
+            sendJsonResponse(res, {code: 204, message: id})
         } catch (err) {
-            sendJsonResponse(res, {code: 404, message: ""})
+            console.error(err);
+            sendJsonResponse(res, {code: 404, message: "User Not Found"})
         }
     }
 
@@ -71,6 +83,7 @@ class UserControllerImpl implements UserController {
     validData({username, age, hobbies}: { username: string, age: number, hobbies: string[] }) {
         return username && age && hobbies;
     }
+
     validUpdateData({username, age, hobbies}: { username: string, age: number, hobbies: string[] }) {
         return username || age || hobbies;
     }

@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon -w src src/cluster.ts",
-    "start:prod": "tsc && node build/src/cluster.js"
+    "start:dev": "nodemon -w src src/application.ts",
+    "start:prod": "tsc && node build/src/application.js",
+    "start:cluster": "nodemon -w src src/cluster.ts"
   },
   "repository": {
     "type": "git",

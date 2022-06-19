@@ -4,8 +4,7 @@ import {sendJsonResponse} from "./utils/utils";
 import {pid} from "process";
 import "dotenv/config";
 
-//TODO +10 The repository with the application contains a Readme.md file containing detailed instructions
-// for installing, running and using the application
+
 export const server = createServer((req, res) => {
     try {
         handleRequest(req, res);
@@ -22,5 +21,7 @@ export const startServer = () => {
         console.log(`process pid: ${pid}`)
     });
 }
+
+startServer();
 
 
